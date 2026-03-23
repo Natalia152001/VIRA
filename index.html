@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercício Gratuito — Vira</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --terra: #C4622D; --terra-light: #E8855A; --terra-dark: #8B3E16;
+  --creme: #F5EDE0; --creme-dark: #EDD9C0;
+  --verde: #2D5B3F; --verde-light: #4A8C64;
+  --off-white: #FAF6F0; --dark: #1A1410; --mid: #5C4A38; --gray: #9C7E65;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; color:var(--dark); overflow-x:hidden; background:var(--dark); }
+
+/* ===== HERO SPLIT ===== */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* LEFT — visual/emocional */
+.hero-left {
+  background: var(--dark);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 64px;
+}
+.hero-left-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 70%, rgba(196,98,45,0.18) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(45,91,63,0.1) 0%, transparent 40%);
+}
+.hero-left-grain {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.hero-left-content { position: relative; z-index: 2; }
+
+.brand-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-weight: 900;
+  color: var(--terra); letter-spacing: 0.1em;
+  margin-bottom: 64px;
+  display: flex; align-items: center; gap: 10px;
+}
+.brand-mark::before { content:''; width:24px; height:2px; background:var(--terra); }
+
+.hero-eyebrow {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--terra-light);
+  margin-bottom: 24px;
+  animation: fadeUp 0.7s ease 0.1s both;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 900; line-height: 1.1; color: var(--creme);
+  margin-bottom: 24px;
+  animation: fadeUp 0.8s ease 0.25s both;
+}
+.hero-title em { color: var(--terra); font-style: italic; }
+.hero-desc {
+  font-size: 15px; font-weight: 300; line-height: 1.85;
+  color: rgba(245,237,224,0.55); margin-bottom: 48px;
+  max-width: 420px;
+  animation: fadeUp 0.8s ease 0.4s both;
+}
+
+/* INCLUDES LIST */
+.includes { list-style: none; animation: fadeUp 0.8s ease 0.55s both; }
+.includes li {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 13px 0; border-bottom: 1px solid rgba(245,237,224,0.07);
+  font-size: 14px; font-weight: 300; color: rgba(245,237,224,0.65);
+  line-height: 1.5;
+}
+.includes li:last-child { border: none; }
+.inc-icon {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: rgba(196,98,45,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0; margin-top: 1px;
+  color: var(--terra-light);
+}
+
+/* SOCIAL PROOF */
+.social-proof {
+  margin-top: 52px; padding-top: 32px;
+  border-top: 1px solid rgba(245,237,224,0.08);
+  display: flex; align-items: center; gap: 20px;
+  animation: fadeUp 0.8s ease 0.7s both;
+}
+.avatars { display: flex; }
+.avatar-circle {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid var(--dark);
+  margin-left: -10px; display: flex; align-items: center;
+  justify-content: center; font-size: 13px; font-weight: 600;
+  color: white; font-family: 'DM Sans', sans-serif;
+}
+.avatars .avatar-circle:first-child { margin-left: 0; }
+.social-text { font-size: 12px; font-weight: 300; color: rgba(245,237,224,0.4); line-height: 1.6; }
+.social-text strong { color: rgba(245,237,224,0.7); font-weight: 500; }
+
+/* RIGHT — form */
+.hero-right {
+  background: var(--off-white);
+  display: flex; align-items: center; justify-content: center;
+  padding: 80px 64px;
+  position: relative;
+}
+.hero-right::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+  background: linear-gradient(180deg, transparent, var(--terra) 30%, var(--terra) 70%, transparent);
+}
+
+.form-box { width: 100%; max-width: 420px; }
+
+.form-tag {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.35em;
+  text-transform: uppercase; color: var(--terra); margin-bottom: 12px;
+  display: block;
+}
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 2.5vw, 36px); font-weight: 700;
+  line-height: 1.2; color: var(--dark); margin-bottom: 10px;
+}
+.form-title em { color: var(--terra); font-style: italic; }
+.form-sub {
+  font-size: 14px; font-weight: 300; color: var(--gray);
+  line-height: 1.7; margin-bottom: 36px;
+}
+
+/* FORM FIELDS */
+.field { margin-bottom: 16px; }
+.field label {
+  display: block; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; color: var(--mid); margin-bottom: 7px;
+  text-transform: uppercase;
+}
+.field input {
+  width: 100%; padding: 14px 18px;
+  border: 1.5px solid var(--creme-dark);
+  background: white; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 300; color: var(--dark);
+  outline: none; transition: border-color 0.2s;
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+.field input:focus { border-color: var(--terra); }
+.field input::placeholder { color: #bbb; }
+
+.btn-submit {
+  width: 100%; padding: 17px;
+  background: var(--terra); color: white; border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 500; letter-spacing: 0.05em;
+  cursor: pointer; transition: all 0.25s; margin-top: 8px;
+  position: relative; overflow: hidden;
+}
+.btn-submit:hover { background: var(--terra-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(196,98,45,0.3); }
+.btn-submit:active { transform: translateY(0); }
+
+.form-privacy {
+  font-size: 11px; color: var(--gray); text-align: center;
+  margin-top: 16px; font-weight: 300; line-height: 1.6;
+}
+
+/* PREVIEW CARD */
+.preview-card {
+  margin-top: 36px; padding: 24px;
+  background: var(--dark); position: relative; overflow: hidden;
+}
+.preview-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--terra), var(--terra-light));
+}
+.preview-label {
+  font-size: 9px; font-weight: 500; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--terra-light); margin-bottom: 12px;
+}
+.preview-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; font-weight: 700; color: var(--creme);
+  line-height: 1.3; margin-bottom: 10px;
+}
+.preview-excerpt {
+  font-size: 12px; font-weight: 300;
+  color: rgba(245,237,224,0.45); line-height: 1.7;
+}
+.preview-blur {
+  margin-top: 10px; font-size: 12px; font-weight: 300;
+  color: rgba(245,237,224,0.2);
+  filter: blur(4px); user-select: none; line-height: 1.7;
+}
+
+/* ===== WHAT YOU GET ===== */
+.what-you-get {
+  background: var(--creme); padding: 100px 40px;
+}
+.wyg-inner { max-width: 1000px; margin: 0 auto; }
+.section-label {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.4em;
+  text-transform: uppercase; color: var(--terra); margin-bottom: 20px; display: block;
+}
+.wyg-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px); font-weight: 700;
+  color: var(--dark); margin-bottom: 56px; line-height: 1.2;
+}
+.wyg-title em { color: var(--terra); font-style: italic; }
+
+.wyg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--creme-dark); }
+.wyg-card { background: var(--creme); padding: 40px 32px; }
+.wyg-card.dark { background: var(--dark); }
+.wyg-card.terra { background: var(--terra); }
+
+.wyg-num {
+  font-family: 'Playfair Display', serif; font-size: 52px;
+  font-weight: 900; line-height: 1; margin-bottom: 16px;
+  color: var(--creme-dark); opacity: 0.5;
+}
+.wyg-card.dark .wyg-num { color: rgba(245,237,224,0.1); opacity: 1; }
+.wyg-card.terra .wyg-num { color: rgba(255,255,255,0.15); opacity: 1; }
+
+.wyg-card-title {
+  font-family: 'Playfair Display', serif; font-size: 20px;
+  font-weight: 700; color: var(--dark); margin-bottom: 10px; line-height: 1.3;
+}
+.wyg-card.dark .wyg-card-title { color: var(--creme); }
+.wyg-card.terra .wyg-card-title { color: white; }
+
+.wyg-card-body {
+  font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.8;
+}
+.wyg-card.dark .wyg-card-body { color: rgba(245,237,224,0.5); }
+.wyg-card.terra .wyg-card-body { color: rgba(255,255,255,0.75); }
+
+/* ===== EXERCISE PREVIEW ===== */
+.exercise-preview {
+  background: var(--off-white); padding: 100px 40px;
+}
+.ep-inner { max-width: 800px; margin: 0 auto; }
+.ep-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px); font-weight: 700;
+  color: var(--dark); margin-bottom: 12px; line-height: 1.2;
+}
+.ep-title em { color: var(--terra); font-style: italic; }
+.ep-sub { font-size: 15px; font-weight: 300; color: var(--gray); margin-bottom: 48px; line-height: 1.7; }
+
+.exercise-card {
+  background: white; border: 1px solid var(--creme-dark);
+  padding: 48px; position: relative; overflow: hidden;
+}
+.exercise-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 4px;
+  background: var(--terra);
+}
+.ex-step {
+  font-size: 10px; font-weight: 500; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--terra); margin-bottom: 16px;
+}
+.ex-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700; color: var(--dark);
+  line-height: 1.4; margin-bottom: 16px;
+}
+.ex-guidance {
+  font-size: 14px; font-weight: 300; color: var(--mid);
+  line-height: 1.8; margin-bottom: 28px;
+}
+.ex-examples { margin-bottom: 28px; }
+.ex-example {
+  background: var(--creme); padding: 12px 16px;
+  margin-bottom: 8px; font-size: 13px; color: var(--mid);
+  font-style: italic; font-weight: 300; border-left: 2px solid var(--terra);
+}
+.ex-blur {
+  filter: blur(5px); user-select: none;
+  pointer-events: none;
+}
+.ex-cta {
+  background: var(--dark); padding: 24px 28px; margin-top: 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.ex-cta-text { font-size: 14px; color: rgba(245,237,224,0.65); font-weight: 300; line-height: 1.5; }
+.ex-cta-text strong { color: var(--terra-light); font-weight: 500; }
+.ex-cta-btn {
+  background: var(--terra); color: white; padding: 12px 24px;
+  font-size: 13px; font-weight: 500; border: none; cursor: pointer;
+  white-space: nowrap; font-family: 'DM Sans', sans-serif;
+  transition: background 0.2s; flex-shrink: 0;
+}
+.ex-cta-btn:hover { background: var(--terra-dark); }
+
+/* ===== TESTIMONIAL STRIP ===== */
+.testi-strip { background: var(--dark); padding: 80px 40px; }
+.ts-inner { max-width: 1000px; margin: 0 auto; }
+.ts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.ts-item { }
+.ts-quote {
+  font-family: 'Playfair Display', serif; font-size: 15px;
+  font-style: italic; font-weight: 400;
+  color: rgba(245,237,224,0.65); line-height: 1.75; margin-bottom: 16px;
+}
+.ts-divider { width: 24px; height: 2px; background: var(--terra); margin-bottom: 12px; }
+.ts-name { font-size: 12px; font-weight: 500; color: rgba(245,237,224,0.4); }
+
+/* ===== FINAL CTA ===== */
+.final { background: var(--terra); padding: 100px 40px; text-align: center; }
+.final-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 56px); font-weight: 900;
+  color: white; line-height: 1.15; margin-bottom: 20px;
+}
+.final-title em { font-style: italic; color: rgba(255,255,255,0.65); }
+.final-sub {
+  font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.7);
+  max-width: 480px; margin: 0 auto 48px; line-height: 1.8;
+}
+.btn-final {
+  background: white; color: var(--terra);
+  padding: 18px 52px; font-size: 15px; font-weight: 600;
+  border: none; cursor: pointer; transition: all 0.25s;
+  font-family: 'DM Sans', sans-serif; letter-spacing: 0.05em;
+}
+.btn-final:hover { transform: translateY(-3px); box-shadow: 0 14px 40px rgba(0,0,0,0.2); }
+
+/* FOOTER */
+footer { background: var(--dark); padding: 36px 40px; text-align: center; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: rgba(245,237,224,0.12); }
+.footer-copy { font-size: 11px; color: rgba(245,237,224,0.18); margin-top: 6px; letter-spacing: 0.08em; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+/* SUCCESS STATE */
+.success-box {
+  display: none; text-align: center; padding: 40px 0;
+}
+.success-icon { font-size: 48px; margin-bottom: 20px; }
+.success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 12px;
+}
+.success-sub { font-size: 14px; font-weight: 300; color: var(--gray); line-height: 1.7; }
+
+@media(max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-left { padding: 80px 32px 48px; }
+  .hero-right { padding: 48px 32px 80px; }
+  .hero-right::before { display: none; }
+  .wyg-grid { grid-template-columns: 1fr; }
+  .ts-grid { grid-template-columns: 1fr; gap: 40px; }
+  .ex-cta { flex-direction: column; align-items: flex-start; }
+  .exercise-card { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- FORMULÁRIO OCULTO — necessário para o Netlify detectar os campos -->
+<form name="captacao-vira" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input name="bot-field">
+  <input name="nome">
+  <input name="email">
+</form>
+
+<!-- HERO SPLIT -->
+<div class="hero">
+
+  <!-- LEFT -->
+  <div class="hero-left">
+    <div class="hero-left-bg"></div>
+    <div class="hero-left-grain"></div>
+    <div class="hero-left-content">
+
+      <div class="brand-mark">Vira</div>
+
+      <div class="hero-eyebrow">Exercício gratuito · Dia 1 do programa</div>
+      <h1 class="hero-title">Descubra a crença que<br>mais te <em>limita.</em></h1>
+      <p class="hero-desc">Um exercício de 10 minutos que revela o padrão de pensamento que está por trás dos seus comportamentos mais difíceis de mudar.</p>
+
+      <ul class="includes">
+        <li>
+          <div class="inc-icon">✦</div>
+          3 perguntas poderosas para identificar a raiz do padrão
+        </li>
+        <li>
+          <div class="inc-icon">✦</div>
+          A técnica do Tribunal da Crença — como questioná-la com evidências reais
+        </li>
+        <li>
+          <div class="inc-icon">✦</div>
+          Espaço guiado para escrever e processar suas respostas
+        </li>
+        <li>
+          <div class="inc-icon">✦</div>
+          Explicação de por que crenças resistem à força de vontade
+        </li>
+      </ul>
+
+      <div class="social-proof">
+        <div class="avatars">
+          <div class="avatar-circle" style="background:#C4622D">A</div>
+          <div class="avatar-circle" style="background:#2D5B3F">M</div>
+          <div class="avatar-circle" style="background:#5C4A38">F</div>
+          <div class="avatar-circle" style="background:#8B3E16">R</div>
+        </div>
+        <div class="social-text">
+          <strong>+200 pessoas</strong> já fizeram este exercício<br>e identificaram sua crença limitante principal
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT — FORM -->
+  <div class="hero-right">
+    <div class="form-box">
+
+      <div id="form-content">
+        <span class="form-tag">Acesso gratuito e imediato</span>
+        <div class="form-title">Quero meu<br><em>exercício grátis</em></div>
+        <p class="form-sub">Preencha abaixo e receba agora. Sem spam — apenas conteúdo que realmente transforma.</p>
+
+        <div class="field">
+          <label for="name">Seu primeiro nome</label>
+          <input type="text" id="name" placeholder="Como posso te chamar?" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="email">Seu melhor e-mail</label>
+          <input type="email" id="email" placeholder="voce@email.com" autocomplete="email">
+        </div>
+
+        <button class="btn-submit" onclick="handleSubmit()">
+          Quero meu exercício gratuito →
+        </button>
+
+        <p class="form-privacy">🔒 Seus dados estão seguros. Nunca compartilhamos com terceiros.<br>Você pode cancelar quando quiser.</p>
+
+        <!-- PREVIEW -->
+        <div class="preview-card">
+          <div class="preview-label">Prévia do exercício</div>
+          <div class="preview-title">Pergunta 1 — O Inventário Honesto</div>
+          <div class="preview-excerpt">Quais são as 3 frases que você mais diz internamente quando as coisas dão errado?</div>
+          <div class="preview-blur">Exemplos: "Eu nunca consigo", "Não sou bom o suficiente", "As pessoas sempre me decepcionam"... Agora responda: de onde vem essa crença? Você a construiu ou a herdou?</div>
+        </div>
+      </div>
+
+      <div class="success-box" id="success-content">
+        <div class="success-icon">🌱</div>
+        <div class="success-title">Perfeito, está chegando!</div>
+        <div class="success-sub">Enviamos o exercício para o seu e-mail agora mesmo.<br><br>Verifique sua caixa de entrada — e a pasta de spam, só por precaução.<br><br>Nos vemos lá dentro. 💛</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- O QUE VOCÊ RECEBE -->
+<div class="what-you-get">
+  <div class="wyg-inner">
+    <span class="section-label">O que está incluído</span>
+    <div class="wyg-title">Tudo que você recebe<br><em>de graça, agora.</em></div>
+    <div class="wyg-grid">
+      <div class="wyg-card dark">
+        <div class="wyg-num">01</div>
+        <div class="wyg-card-title">O exercício completo do Dia 1</div>
+        <div class="wyg-card-body">O mesmo exercício que abre o Programa de 21 Dias — adaptado para você fazer sozinho em 10 minutos, com instruções claras e espaço para escrever.</div>
+      </div>
+      <div class="wyg-card terra">
+        <div class="wyg-num">02</div>
+        <div class="wyg-card-title">A técnica do Tribunal da Crença</div>
+        <div class="wyg-card-body">Um método simples para questionar suas crenças com evidências reais — e perceber que elas são muito menos sólidas do que parecem.</div>
+      </div>
+      <div class="wyg-card">
+        <div class="wyg-num">03</div>
+        <div class="wyg-card-title">Explicação de por que crenças resistem</div>
+        <div class="wyg-card-body">Por que força de vontade não funciona contra crenças? Você vai entender o mecanismo neurológico em linguagem simples — e isso já vai mudar como você se vê.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRÉVIA DO EXERCÍCIO -->
+<div class="exercise-preview">
+  <div class="ep-inner">
+    <span class="section-label">Uma prévia do que te espera</span>
+    <div class="ep-title">Parte do exercício que<br>você vai <em>receber</em></div>
+    <p class="ep-sub">O exercício completo tem 3 etapas. Veja como começa a primeira:</p>
+
+    <div class="exercise-card">
+      <div class="ex-step">Etapa 1 de 3 · O Inventário Honesto</div>
+      <div class="ex-question">"Quais são as 3 frases que você mais diz internamente quando as coisas dão errado?"</div>
+      <div class="ex-guidance">Escreva sem filtro. Não edite. O que vem à mente nos momentos difíceis? Frases que você repetiria se alguém te pedisse para explicar por que as coisas não deram certo.</div>
+      <div class="ex-examples">
+        <div class="ex-example">ex: "Eu nunca consigo terminar o que começo"</div>
+        <div class="ex-example">ex: "As pessoas sempre me deixam na mão"</div>
+        <div class="ex-example">ex: "Não sou inteligente o suficiente pra isso"</div>
+      </div>
+      <div class="ex-blur">
+        A etapa 2 vai te ajudar a rastrear de onde essa crença veio — e se ela realmente pertence a você. A etapa 3 vai te mostrar como questioná-la com evidências reais da sua própria vida...
+      </div>
+      <div class="ex-cta">
+        <div class="ex-cta-text">As etapas 2 e 3 estão no exercício completo.<br><strong>Receba agora — é gratuito.</strong></div>
+        <button class="ex-cta-btn" onclick="document.querySelector('#email').scrollIntoView({behavior:'smooth'}); document.querySelector('#email').focus();">
+          Quero o exercício →
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DEPOIMENTOS -->
+<div class="testi-strip">
+  <div class="ts-inner">
+    <div class="ts-grid">
+      <div class="ts-item">
+        <div class="ts-quote">"Fiz o exercício numa tarde e percebi uma crença que carrego desde criança. Em 10 minutos enxerguei mais do que em meses tentando 'ter mais força de vontade'."</div>
+        <div class="ts-divider"></div>
+        <div class="ts-name">Ana C. · São Paulo</div>
+      </div>
+      <div class="ts-item">
+        <div class="ts-quote">"O Tribunal da Crença parece simples, mas é perturbador — da melhor forma. Fica difícil continuar acreditando em algo quando você mesmo não consegue provar que é verdade."</div>
+        <div class="ts-divider"></div>
+        <div class="ts-name">Marcos T. · Curitiba</div>
+      </div>
+      <div class="ts-item">
+        <div class="ts-quote">"Esperava um PDF genérico. O que recebi foi um espelho. Recomendo fazer com calma, num momento só seu."</div>
+        <div class="ts-divider"></div>
+        <div class="ts-name">Fernanda R. · Belo Horizonte</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final">
+  <div class="final-title">Pronto para ver<br><em>o que te prende?</em></div>
+  <p class="final-sub">10 minutos. Uma folha de papel. Um exercício que pode mudar como você se enxerga.</p>
+  <button class="btn-final" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+    Quero meu exercício gratuito →
+  </button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Vira</div>
+  <div class="footer-copy">© 2025 Vira · Todos os direitos reservados</div>
+</footer>
+
+<script>
+function handleSubmit() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const btn = document.querySelector('.btn-submit');
+
+  // Validação
+  if (!name) {
+    document.getElementById('name').focus();
+    document.getElementById('name').style.borderColor = '#C4622D';
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    document.getElementById('email').focus();
+    document.getElementById('email').style.borderColor = '#C4622D';
+    return;
+  }
+
+  // Estado de loading
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  // Envia para o Netlify Forms
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      'form-name': 'captacao-vira',
+      'bot-field': '',
+      'nome': name,
+      'email': email
+    }).toString()
+  })
+  .then(() => {
+    // Sucesso — mostra tela de confirmação
+    document.getElementById('form-content').style.display = 'none';
+    document.getElementById('success-content').style.display = 'block';
+  })
+  .catch(() => {
+    // Erro — mostra mensagem e reabilita botão
+    btn.textContent = 'Quero meu exercício gratuito →';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    alert('Algo deu errado. Tente novamente em instantes.');
+  });
+}
+
+// Remove borda vermelha ao digitar
+['name','email'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.style.borderColor = '';
+  });
+});
+</script>
+
+</body>
+</html>
